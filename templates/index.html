@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intracranial Hemorrhage Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .file-upload {
+            margin: 20px 0;
+        }
+        .file-upload input {
+            display: none;
+        }
+        .file-upload label {
+            display: block;
+            background: #007BFF;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .file-list {
+            margin: 20px 0;
+        }
+        .file-list ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .file-list li {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 150px;
+            overflow: hidden;
+        }
+        .file-list img {
+            max-width: 100%;
+            max-height: 100px;
+            object-fit: cover;
+        }
+        .file-list button {
+            margin-top: 10px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .popup .close-btn {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #calculationTime{
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Intracranial Hemorrhage Detection</h1>
+        <p>Detect brain hemorrhages by uploading an image</p>
+        
+        <div class="file-upload">
+            <input type="file" id="fileInput" accept="image/*,.dcm">
+            <label for="fileInput">Upload image</label>
+        </div>
+
+        <!-- 
+            <div class="file-upload">
+                <input type="file" id="zipInput" accept=".zip">
+                <label for="zipInput">ZIP Dosyası Yükle</label>
+            </div>
+        -->
+            
+        <div class="file-list">
+            <h3>Uploads</h3>
+            <ul id="fileList">
+                <!-- Show uploads here -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div class="popup" id="popup">
+        <h2>Results</h2>
+        <div id="resultText">Detected brain hemorrhage: ...</div>
+        <div id="calculationTime">Calculation time: ...</div>
+        <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        //const zipInput = document.getElementById('zipInput');
+        const fileList = document.getElementById('fileList');
+        const popup = document.getElementById('popup');
+        const overlay = document.querySelector('.overlay');
+        const resultText = document.getElementById('resultText');
+        const calculationTime = document.getElementById('calculationTime');
+    
+        fileInput.addEventListener('change', handleFiles);
+        //zipInput.addEventListener('change', handleFiles);
+    
+        function handleFiles(event) {
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const li = document.createElement('li');
+    
+                if (file.type.startsWith('image/') || file.name.endsWith('.dcm')) {
+                    const img = document.createElement('img');
+                    img.src = URL.createObjectURL(file);
+                    img.onload = function() {
+                        URL.revokeObjectURL(this.src);
+                    };
+                    li.appendChild(img);
+                } else {
+                    li.textContent = file.name; // Only display name for non-image files
+                }
+    
+                const button = document.createElement('button');
+                button.textContent = 'Show results';
+                button.addEventListener('click', () => uploadFile(file));
+                li.appendChild(button);
+    
+                fileList.appendChild(li);
+            }
+        }
+    
+        function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+    
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data.results);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    
+        function displayResults(results) {
+            let resultsHtml = '';
+            let totalProcessingTime = 0;
+            results.forEach(result => {
+                resultsHtml += `<p>${result[0]}: ${result[1]}</p>`;
+                totalProcessingTime += result[2];
+            });
+    
+            resultText.innerHTML = resultsHtml;
+            calculationTime.textContent = `Calculation time: ${totalProcessingTime.toFixed(2)} seconds`;
+    
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+    
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+    </script>    
+</body>
+</html>

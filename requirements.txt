@@ -1,0 +1,7 @@
+Flask==3.0.3
+gunicorn
+torch==2.3.0
+torchvision==0.18.0
+transformers
+Pillow
+Werkzeug
