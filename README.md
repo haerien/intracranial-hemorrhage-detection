@@ -76,22 +76,22 @@ Live: http://3.70.186.153:8000/
        ```
        Well... That code might look a bit scary
      ### **To find your subnet ID:**
-     #### **1)** Sign in to the AWS Management Console.
-     #### **2)** Navigate to the VPC Dashboard:
+     * **1)** Sign in to the AWS Management Console.
+     * **2)** Navigate to the VPC Dashboard:
         * In the AWS Management Console, search for "VPC" and select the VPC service.
-     #### **3)** View Subnets:
+     * **3)** View Subnets:
         *  In the left-hand menu, click on "Subnets".
         *  Find the subnet you want to use. Ensure it's in the same region.
         *  Note the Subnet ID (e.g., 'subnet-12345678').
      ### **To find your security group ID:**
-     #### **1)** Navigate to the EC2 Dashboard:
+     * **1)** Navigate to the EC2 Dashboard:
         *  In the AWS Management Console, search for "EC2" and select the EC2 service.
-     #### **2)** View Security Groups:
+     * **2)** View Security Groups:
         *  In the left-hand menu, click on "Security Groups".
         *  Find the security group you want to use or create a new one if necessary.
         *  Note the Security Group ID (e.g., 'sg-12345678').
 5. **Enjoy!**
-   ##### Find the public IP of your task, add port "8000" to the end of it and start using.
+   * Find the public IP of your task, add port "8000" to the end of it and start using.
 
 ### Usage
   * Upload an Image
@@ -116,7 +116,3 @@ For detailed deployment instructions, refer to the <a href="https://docs.aws.ama
 ```
 Feel free to adjust any details if needed!
 ```
-
-<p align="center">
-  <img src="https://preview.redd.it/is-this-why-roger-and-his-crew-laughed-v0-ymuov9nlwlga1.jpg?width=709&format=pjpg&auto=webp&s=62e7cc9e0c954dee95f0f28025419815d6b2f160" alt="Gol D Roger Laughing" width="300"/>
-</p>
