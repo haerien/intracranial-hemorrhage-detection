@@ -6,9 +6,9 @@ Live: http://intracranial-hemorrhage.online:8000/
 
 ## Features
 
-- **Intracranial Hemorrhage Detection**: Uses a pre-trained model to classify and identify types of intracranial hemorrhages from uploaded images.
-- **Dockerized Deployment**: Containerized application for consistent and reproducible deployment.
-- **AWS Hosting**: Deployed on AWS for high availability and reliability.
+- Uses a pre-trained model to classify and identify types of intracranial hemorrhages from uploaded images.
+- Containerized application for consistent and reproducible deployment.
+- Deployed on AWS for high availability and reliability.
 
 ## Getting Started
 
