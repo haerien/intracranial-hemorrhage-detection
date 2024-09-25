@@ -94,10 +94,9 @@ Live: http://3.79.8.171:8000/
    * Find the public IP of your task, add port "8000" to the end of it and start using.
 
 ### Usage
-  * Upload an Image
-    Navigate to the web application and use the upload feature to submit a medical image.
-  * Get Predictions
-    After uploading, the model will process the image and return the type of brain hemorrhage detected.
+
+  * Navigate to the web application and use the upload feature to submit a medical image.
+  * After uploading, the model will process the image and return the type of brain hemorrhage detected.
 
 ### Contributing
   Feel free to open issues or submit pull requests if you have improvements or bug fixes.
