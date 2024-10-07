@@ -2,7 +2,6 @@
 
 This project is a web application that uses a pre-trained Hugging Face model to detect types of brain hemorrhage from medical images. It has been deployed using Docker and AWS to ensure scalability and ease of access.
 
-Live: http://3.79.8.171:8000/
 
 ## Features
 
